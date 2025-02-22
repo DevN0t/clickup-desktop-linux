@@ -1,23 +1,31 @@
 #!/bin/bash
 
-curl -L -o /usr/local/bin/clickup-linux-desktop https://github.com/DevN0t/clickup-desktop-linux/releases/download/v1.0/clickup-linux-desktop.AppImage
+# Check if the .AppImage already exists
+if [ ! -f /usr/local/bin/clickup-linux-desktop ]; then
+    echo "The .AppImage was not found. Please make sure you have run 'npm run dist' first."
+    exit 1
+fi
 
-chmod +x /usr/local/bin/clickup-linux-desktop
+# Download the icon
+echo "Downloading the icon..."
+curl -L -o /usr/local/share/icons/clickup-icon.png https://github.com/SEUUSUARIO/clickup-desktop-linux/raw/main/assets/icons/clickup-icon.png
 
-curl -L -o /usr/local/share/icons/clickup-icon.png https://github.com/DevN0t/clickup-desktop-linux/raw/main/clickup-icon.png
-
+# Function to get the process name
 get_process_name() {
   process_name=$(ps -e | grep 'clickup-linux-desktop' | awk '{print $4}')
   echo "$process_name"
 }
 
+# Get the process name if it's running
 process_name=$(get_process_name)
 
+# If the process name is not found, use the default name
 if [ -z "$process_name" ]; then
   process_name="clickup-linux-desktop"
 fi
 
-echo "Creating archive .desktop..."
+# Create the .desktop file
+echo "Creating the .desktop file..."
 cat > /usr/share/applications/clickup-linux-desktop.desktop <<EOL
 [Desktop Entry]
 Version=1.0
@@ -29,9 +37,10 @@ Terminal=false
 Type=Application
 Categories=Utility;Network;
 Name[en_US]=ClickUp (unofficial)
-StartupWMClass=clickup-linux-desktop
+StartupWMClass=$process_name
 EOL
 
+# Make the .desktop file executable
 chmod +x /usr/share/applications/clickup-linux-desktop.desktop
 
-echo "Success"
+echo "Installation completed successfully!"
