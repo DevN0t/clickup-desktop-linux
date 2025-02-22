@@ -28,7 +28,7 @@ fi
 
 # Download the icon
 echo "Downloading the icon..."
-curl -L -o /usr/local/share/icons/clickup-icon.png https://github.com/SEUUSUARIO/clickup-desktop-linux/raw/main/assets/icons/clickup-icon.png
+curl -L -o /usr/local/share/icons/clickup-icon.png https://github.com/DevN0t/clickup-desktop-linux/raw/main/clickup-icon.png
 
 # Function to get the process name
 get_process_name() {
@@ -65,7 +65,7 @@ chmod +x /usr/share/applications/clickup-linux-desktop.desktop
 
 # Install the .AppImage
 echo "Installing the .AppImage..."
-sudo cp "$SCRIPT_DIR/dist/clickup-linux-desktop.AppImage" /usr/local/bin/clickup-linux-desktop
+sudo cp "$SCRIPT_DIR/dist/clickup-linux-desktop-1.0.0.AppImage" /usr/local/bin/clickup-linux-desktop
 sudo chmod +x /usr/local/bin/clickup-linux-desktop
 
 echo "Installation completed successfully!"
