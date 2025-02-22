@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Prompt for sudo password once
+sudo -v
+
 # Get the script directory
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
@@ -20,15 +23,23 @@ npm install
 echo "Running npm run dist to create .AppImage..."
 npm run dist
 
-# Check if the .AppImage already exists
-if [ ! -f "$SCRIPT_DIR/dist/clickup-linux-desktop-1.0.0.AppImage" ]; then
+# Look for the .AppImage in the dist folder
+APPIMAGE_FILE=$(find "$SCRIPT_DIR/dist" -name "*.AppImage" | head -n 1)
+
+# Check if the .AppImage exists
+if [ ! -f "$APPIMAGE_FILE" ]; then
     echo "The .AppImage was not found. Please make sure the build was successful."
     exit 1
 fi
 
+# Ensure the directories exist
+echo "Creating necessary directories..."
+sudo mkdir -p /usr/local/share/icons
+sudo mkdir -p /usr/share/applications
+
 # Download the icon
 echo "Downloading the icon..."
-curl -L -o /usr/local/share/icons/clickup-icon.png https://github.com/DevN0t/clickup-desktop-linux/raw/main/clickup-icon.png
+sudo curl -L -o /usr/local/share/icons/clickup-icon.png https://github.com/DevN0t/clickup-desktop-linux/raw/master/clickup-icon.png
 
 # Function to get the process name
 get_process_name() {
@@ -46,7 +57,7 @@ fi
 
 # Create the .desktop file
 echo "Creating the .desktop file..."
-cat > /usr/share/applications/clickup-linux-desktop.desktop <<EOL
+sudo bash -c "cat > /usr/share/applications/clickup-linux-desktop.desktop <<EOL
 [Desktop Entry]
 Version=1.0
 Name=ClickUp Linux Desktop
@@ -58,14 +69,15 @@ Type=Application
 Categories=Utility;Network;
 Name[en_US]=ClickUp (unofficial)
 StartupWMClass=$process_name
-EOL
+EOL"
 
 # Make the .desktop file executable
-chmod +x /usr/share/applications/clickup-linux-desktop.desktop
+echo "Making the .desktop file executable..."
+sudo chmod +x /usr/share/applications/clickup-linux-desktop.desktop
 
 # Install the .AppImage
 echo "Installing the .AppImage..."
-sudo cp "$SCRIPT_DIR/dist/clickup-linux-desktop-1.0.0.AppImage" /usr/local/bin/clickup-linux-desktop
+sudo cp "$APPIMAGE_FILE" /usr/local/bin/clickup-linux-desktop
 sudo chmod +x /usr/local/bin/clickup-linux-desktop
 
 echo "Installation completed successfully!"
