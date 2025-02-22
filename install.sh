@@ -21,7 +21,7 @@ echo "Running npm run dist to create .AppImage..."
 npm run dist
 
 # Check if the .AppImage already exists
-if [ ! -f "$SCRIPT_DIR/dist/clickup-linux-desktop.AppImage" ]; then
+if [ ! -f "$SCRIPT_DIR/dist/clickup-linux-desktop-1.0.0.AppImage" ]; then
     echo "The .AppImage was not found. Please make sure the build was successful."
     exit 1
 fi
