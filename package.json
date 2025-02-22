@@ -18,7 +18,7 @@
   },
   "build": {
     "appId": "com.ryvo.clicuplinuxdesktop",
-    "productName": "ClickUp Linux Desktop",
+    "productName": "clickup-linux-desktop",
     "linux": {
       "target": "AppImage"
     }
