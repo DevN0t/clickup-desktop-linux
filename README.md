@@ -17,21 +17,7 @@ This is an unofficial ClickUp client for Linux. You can generate the desktop app
     cd clickup-desktop-linux
     ```
 
-2. **Install dependencies**:
-
-    ```bash
-    npm install
-    ```
-
-3. **Build the .AppImage**:
-
-   This will generate the `.AppImage` file locally:
-
-    ```bash
-    npm run dist
-    ```
-
-4. **Run the install script**:
+2. **Run the install script**:
 
    This will download the icon and generate the `.desktop` file for you.
 
@@ -39,7 +25,7 @@ This is an unofficial ClickUp client for Linux. You can generate the desktop app
     bash install.sh
     ```
 
-5. **Find ClickUp in your applications menu**.
+3. **Find ClickUp in your applications menu**.
 
 If you encounter any issues, feel free to open an issue on the repository.
 
