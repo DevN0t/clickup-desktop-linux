@@ -16,9 +16,13 @@ fi
 echo "Installing dependencies..."
 npm install
 
+# Run the build to create the .AppImage
+echo "Running npm run dist to create .AppImage..."
+npm run dist
+
 # Check if the .AppImage already exists
 if [ ! -f "$SCRIPT_DIR/dist/clickup-linux-desktop.AppImage" ]; then
-    echo "The .AppImage was not found. Please make sure you have run 'npm run dist' first."
+    echo "The .AppImage was not found. Please make sure the build was successful."
     exit 1
 fi
 
