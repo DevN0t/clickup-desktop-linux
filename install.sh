@@ -1,7 +1,23 @@
 #!/bin/bash
 
+# Get the script directory
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Change to the directory where the script is located (optional, if you want to make sure you're inside the right folder)
+cd "$SCRIPT_DIR"
+
+# Check if npm is installed
+if ! command -v npm &> /dev/null; then
+    echo "npm not found. Please install Node.js and npm first."
+    exit 1
+fi
+
+# Install dependencies using npm
+echo "Installing dependencies..."
+npm install
+
 # Check if the .AppImage already exists
-if [ ! -f /usr/local/bin/clickup-linux-desktop ]; then
+if [ ! -f "$SCRIPT_DIR/dist/clickup-linux-desktop.AppImage" ]; then
     echo "The .AppImage was not found. Please make sure you have run 'npm run dist' first."
     exit 1
 fi
@@ -42,5 +58,10 @@ EOL
 
 # Make the .desktop file executable
 chmod +x /usr/share/applications/clickup-linux-desktop.desktop
+
+# Install the .AppImage
+echo "Installing the .AppImage..."
+sudo cp "$SCRIPT_DIR/dist/clickup-linux-desktop.AppImage" /usr/local/bin/clickup-linux-desktop
+sudo chmod +x /usr/local/bin/clickup-linux-desktop
 
 echo "Installation completed successfully!"
